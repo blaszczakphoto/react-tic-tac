@@ -40,7 +40,7 @@ class Game extends React.Component {
     super();
     this.state = {
       history: [
-        { squares: Array(9).fill(null) }
+        { squares: Array(9).fill(null), addedMoveCoords: null, }
       ],
       xIsNext: true,
       stepNumber: 0,
@@ -62,9 +62,9 @@ class Game extends React.Component {
     const moves = history.map((step, move) => {
       // move 0 is game start
       // move 1 is first step
-      let moveCoords = '1,1'
+      let moveCoordsText = step.addedMoveCoords;
       const desc = move ?
-        'Move #' + move + ' (' + moveCoords + ')' :
+        'Move #' + move + moveCoordsText:
         'Game start';
       return (
         <li key={move}>
@@ -112,7 +112,8 @@ class Game extends React.Component {
     squares[i] = this.currentPlayerText();
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        addedMoveCoords: '(1,2)',
       }]),
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length,
