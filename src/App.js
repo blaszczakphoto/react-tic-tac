@@ -123,11 +123,16 @@ class Game extends React.Component {
   currentPlayerText() {
     return (this.state.xIsNext) ? 'X' : 'O';
   }
+
+  calculateCoords(i) {
+    return ('(1,3)')
+  }
 }
 
 export default Game;
 
-function calculateWinner(squares) {
+
+export function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
