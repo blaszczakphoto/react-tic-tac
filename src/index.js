@@ -61,6 +61,8 @@ class Game extends React.Component {
   	}
 
   	const moves = history.map((step, move) => {
+      // move 0 is game start
+      // move 1 is first step
   	  const desc = move ?
   	    'Move #' + move :
   	    'Game start';
@@ -92,9 +94,15 @@ class Game extends React.Component {
   }
 
   handleClick(i) { 
-  	const history = this.state.history;
+    const lastStep = this.state.history.length - 1;
+    let history;
+    if (lastStep > this.state.stepNumber) {
+      history = this.state.history.slice(0, this.state.stepNumber + 1);
+    } else {
+      history = this.state.history;
+    }
   	const current = history[history.length - 1];
-		const squares = current.squares.slice();
+    const squares = current.squares.slice();
 		if (squares[i] != null) {
 			return;
 		}
