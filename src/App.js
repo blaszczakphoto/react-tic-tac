@@ -35,30 +35,29 @@ class HistoryList extends React.Component {
 class Board extends React.Component {
   renderSquare(i) {
     return (
-      <button className="square" onClick={() => this.props.onClick(i)}>
+      <button key={i} className="square" onClick={() => this.props.onClick(i)}>
         {this.props.squares[i]}
       </button>
     );
   }
 
   render() {
+    const boardsNumbers = [[0,1,2], [3,4,5], [6,7,8]];
+    
+    const boardRows = boardsNumbers.map((boardRowNumbers, index) => {
+      const rowSquares = boardRowNumbers.map((squareNumber) => {
+        return(this.renderSquare(squareNumber));
+      })
+      return(
+        <div key={index} className="board-row">
+          {rowSquares}
+        </div>
+      )
+    })
+ 
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {boardRows}
       </div>
     );
   }
