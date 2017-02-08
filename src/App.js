@@ -40,7 +40,7 @@ class Game extends React.Component {
     super();
     this.state = {
       history: [
-        { squares: Array(9).fill(null) }
+        { squares: Array(9).fill(null), addedMoveCoords: null, }
       ],
       xIsNext: true,
       stepNumber: 0,
@@ -62,8 +62,9 @@ class Game extends React.Component {
     const moves = history.map((step, move) => {
       // move 0 is game start
       // move 1 is first step
+      let moveCoordsText = step.addedMoveCoords;
       const desc = move ?
-        'Move #' + move :
+        'Move #' + move + moveCoordsText:
         'Game start';
       return (
         <li key={move}>
@@ -109,9 +110,11 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.currentPlayerText();
+    let moveCoordsText = this.calculateCoords(i);
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
+        addedMoveCoords: moveCoordsText,
       }]),
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length,
@@ -121,11 +124,27 @@ class Game extends React.Component {
   currentPlayerText() {
     return (this.state.xIsNext) ? 'X' : 'O';
   }
+
+  calculateCoords(i) {
+    let coordsY = parseInt(i / 3) + 1;
+    let coordsX;
+
+    if (i < 3) {
+      coordsX = i + 1;
+    }
+    else if (i > 2 && i < 6) {
+      coordsX = i - 2;
+    } else {
+      coordsX = i - 5;
+    }
+    return ('('+coordsY+',' + coordsX + ')')
+  }
 }
 
 export default Game;
 
-function calculateWinner(squares) {
+
+export function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
