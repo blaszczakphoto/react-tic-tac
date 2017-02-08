@@ -28,7 +28,7 @@ class HistoryList extends React.Component {
   }
 
   isActive(stepNumber) {
-    return (this.props.stepNumber == stepNumber) ? 'active' : '';
+    return (this.props.stepNumber === stepNumber) ? 'active' : '';
   }
 }
 
@@ -144,7 +144,7 @@ class Game extends React.Component {
   }
 
   calculateCoords(i) {
-    let coordsY = parseInt(i / 3) + 1;
+    let coordsY = parseInt(i / 3, 10) + 1;
     let coordsX;
 
     if (i < 3) {
