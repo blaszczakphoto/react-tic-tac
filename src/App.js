@@ -1,6 +1,36 @@
 import React from 'react';
 import './index.css';
 
+class HistoryList extends React.Component {
+  render() {
+    return (
+      <ol>
+        {this.movesLinksList()}
+      </ol>
+    );
+  }
+
+  movesLinksList() {
+    const moves = this.props.history.map((step, move) => {
+      // move 0 is game start
+      // move 1 is first step
+      let moveCoordsText = step.addedMoveCoords;
+      const desc = move ?
+        'Move #' + move + moveCoordsText:
+        'Game start';
+      return (
+        <li key={move}>
+          <a href="#" className={this.isActive(move)} onClick={() => this.props.onClickCallback(move)}>{desc}</a>
+        </li>
+      );
+    });
+    return moves;
+  }
+
+  isActive(stepNumber) {
+    return (this.props.stepNumber == stepNumber) ? 'active' : '';
+  }
+}
 
 class Board extends React.Component {
   renderSquare(i) {
@@ -59,20 +89,6 @@ class Game extends React.Component {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
-    const moves = history.map((step, move) => {
-      // move 0 is game start
-      // move 1 is first step
-      let moveCoordsText = step.addedMoveCoords;
-      const desc = move ?
-        'Move #' + move + moveCoordsText:
-        'Game start';
-      return (
-        <li key={move}>
-          <a href="#" className={this.isActive(move)} onClick={() => this.jumpTo(move)}>{desc}</a>
-        </li>
-      );
-    });
-
     return (
       <div className="game">
         <div className="game-board">
@@ -80,7 +96,10 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{ status }</div>
-          <ol>{ moves }</ol>
+          <HistoryList 
+            stepNumber={this.state.stepNumber} 
+            history={history} 
+            onClickCallback={(stepNumber) => this.jumpTo(stepNumber)} />
         </div>
       </div>
     );
@@ -91,10 +110,6 @@ class Game extends React.Component {
       stepNumber: step,
       xIsNext: (step % 2) ? false : true,
     });
-  }
-
-  isActive(stepNumber) {
-    return (this.state.stepNumber == stepNumber) ? 'active' : '';
   }
 
   handleClick(i) { 
@@ -148,7 +163,7 @@ class Game extends React.Component {
 export default Game;
 
 
-export function calculateWinner(squares) {
+function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
