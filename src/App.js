@@ -68,7 +68,7 @@ class Game extends React.Component {
         'Game start';
       return (
         <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+          <a href="#" className={this.isActive(move)} onClick={() => this.jumpTo(move)}>{desc}</a>
         </li>
       );
     });
@@ -91,6 +91,10 @@ class Game extends React.Component {
       stepNumber: step,
       xIsNext: (step % 2) ? false : true,
     });
+  }
+
+  isActive(stepNumber) {
+    return (this.state.stepNumber == stepNumber) ? 'active' : '';
   }
 
   handleClick(i) { 
