@@ -110,10 +110,11 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.currentPlayerText();
+    let moveCoordsText = this.calculateCoords(i);
     this.setState({
       history: history.concat([{
         squares: squares,
-        addedMoveCoords: '(1,2)',
+        addedMoveCoords: moveCoordsText,
       }]),
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length,
@@ -125,7 +126,18 @@ class Game extends React.Component {
   }
 
   calculateCoords(i) {
-    return ('(1,3)')
+    let coordsY = parseInt(i / 3) + 1;
+    let coordsX;
+
+    if (i < 3) {
+      coordsX = i + 1;
+    }
+    else if (i > 2 && i < 6) {
+      coordsX = i - 2;
+    } else {
+      coordsX = i - 5;
+    }
+    return ('('+coordsY+',' + coordsX + ')')
   }
 }
 

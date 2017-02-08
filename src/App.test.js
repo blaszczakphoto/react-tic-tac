@@ -20,7 +20,12 @@ xit('has 3 board rows', () => {
 
 it('calculate position based on square number', () => {
 	const wrapper = shallow(<Game />);
-  expect(wrapper.instance().calculateCoords(3)).toBe('(1,3)');
+  expect(wrapper.instance().calculateCoords(2)).toBe('(1,3)');
+});
+
+it('calculate position based on square number 2', () => {
+	const wrapper = shallow(<Game />);
+  expect(wrapper.instance().calculateCoords(3)).toBe('(2,1)');
 });
 
 
