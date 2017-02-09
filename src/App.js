@@ -74,6 +74,7 @@ class Game extends React.Component {
       xIsNext: true,
       stepNumber: 0,
     }
+    this.handleKeyUp = this.handleKeyUp.bind(this);
   }
 
   render() {
@@ -89,7 +90,7 @@ class Game extends React.Component {
     }
 
     return (
-      <div className="game">
+      <div className="game" onKeyUp={this.handleKeyUp}>
         <div className="game-board">
           <Board onClick={(i) => this.handleClick(i)} squares={current.squares} />
         </div>
@@ -102,6 +103,12 @@ class Game extends React.Component {
         </div>
       </div>
     );
+  }
+
+  handleKeyUp(e) {
+    if (e.keyCode >= 49 && e.keyCode <= (49 + this.state.history.length)) {
+      this.jumpTo(e.keyCode-49);
+    }
   }
 
   jumpTo(step) {
